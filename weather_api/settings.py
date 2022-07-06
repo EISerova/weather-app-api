@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 from datetime import timedelta
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,10 +45,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework.authtoken",
-    "djoser",
     "api.apps.ApiConfig",
     "weather.apps.WeatherConfig",
     "drf_yasg",
+    "djoser",
 ]
 
 MIDDLEWARE = [
@@ -86,7 +90,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "new_test",
         "USER": "kate",
-        "PASSWORD": "aaaddda",
+        "PASSWORD": os.getenv("PASSWORD"),
         "HOST": "weather_db",
         "PORT": "5432",
     }
@@ -150,8 +154,9 @@ SIMPLE_JWT = {
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.yandex.ru"
 EMAIL_PORT = 465
-EMAIL_HOST_USER = "katyaserova@yandex.ru"
-EMAIL_HOST_PASSWORD = "1kenga11"
+
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
