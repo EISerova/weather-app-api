@@ -1,5 +1,5 @@
 # Weather App Api
-![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray)
+![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray)  
 ![Docker](https://a11ybadges.com/badge?logo=docker) ![PostgreSQL](https://a11ybadges.com/badge?logo=postgresql) ![Celery](https://a11ybadges.com/badge?logo=celery) ![Redis](https://a11ybadges.com/badge?logo=redis)
 
 ### Описание:
@@ -7,18 +7,6 @@
 Информирование о погоде в городе. Для регистрации указывается только почта. После регистрации с выбранной периодичностью на почту приходить информация о погоде: "температура", "ощущается как", "давление". 
 
 ## Примеры API-запросов:
-
-#### Подписка на погоду в городе
-
-```http
-  GET /api/v1/subscribe/
-```
-
-| Parameter          | Type     | Description                    |
-| :----------------- | :------- | :----------------------------- |
-| `token`            | `string` | **Required**. Ваш токен        |
-| `town`             | `string` | **Required**. Название города  |
-| `update_period`    | `integer`| **Optional**. Период рассылки  |
 
 #### Регистрация
 
@@ -42,13 +30,26 @@
 | `email`            | `string` | **Required**. Ваша почта        |
 | `confirmation_code`| `string` | **Required**. Код подтверждения |
 
+#### Подписка на погоду в городе
+
+```http
+  GET /api/v1/subscribe/
+```
+
+| Parameter          | Type     | Description                    |
+| :----------------- | :------- | :----------------------------- |
+| `token`            | `string` | **Required**. Ваш токен        |
+| `town`             | `string` | **Required**. Название города  |
+| `update_period`    | `integer`| **Optional**. Период рассылки  |
+
+
 ### Зависимости:
 
-Django 3.2
-Django rest framework 3.12
-Psycopg2 2.9
-Redis 3.5
-Celery 5.1
+Django 3.2  
+Django rest framework 3.12  
+Psycopg2 2.9  
+Redis 3.5  
+Celery 5.1  
 
 ### Запуск проекта в Docker
 
