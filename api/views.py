@@ -1,16 +1,40 @@
 """Вьюсеты для обработки запросов."""
 
-from django.shortcuts import get_object_or_404
-from rest_framework import filters, mixins, viewsets
-from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.permissions import (
-    IsAuthenticated,
-    IsAdminUser,
+from rest_framework import filters, status, viewsets
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+
+from weather.models import Town
+
+from .serializers import (
+    SignUpSerializer,
+    SubscribeSerializer,
+    TokenSerializer,
+    TownSerializer,
 )
 
-from .permissions import IsAuthorOrReadOnly
-from .serializers import SubscribeSerializer, TownSerializer
-from weather.models import Subscribe, Town
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def user_signup(request):
+    """Регистрация пользователей и отправка кода подтвержения на почту."""
+
+    serializer = SignUpSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save(subscriber=request.user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def user_auth(request):
+    """Получение пользователем токена."""
+
+    serializer = TokenSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response("Токен выслан на указанную почту", status=status.HTTP_200_OK)
 
 
 class SubscribeViewSet(viewsets.ModelViewSet):
@@ -20,7 +44,6 @@ class SubscribeViewSet(viewsets.ModelViewSet):
 
     permission_classes = (IsAuthenticated,)
     filter_backends = (filters.SearchFilter,)
-    search_fields = ("subscriber__username",)
 
     def perform_create(self, serializer):
         """

@@ -1,8 +1,9 @@
-from celery import shared_task
-from api.config import API_URL, appid
 import requests
+from celery import shared_task
 
+from api.config import API_URL, appid
 from weather.send_email import send_weather_mail
+
 from .models import Subscribe, Town
 
 

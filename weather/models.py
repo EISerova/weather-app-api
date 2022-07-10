@@ -1,12 +1,11 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractBaseUser
+from django.core.exceptions import ValidationError
 from django.db import models
 
-from django.core.exceptions import ValidationError
 from api.config import UPDATE_PERIODS
+from weather_app.settings import CONFIRMATION_CODE_LENGTH
 
 UPDATE_PERIODS_ERROR_MSG = "Выберите частоту рассылки - 1, 3, 6, или 12 часов."
-
-User = get_user_model()
 
 
 def validate_update_period(value):
@@ -15,13 +14,24 @@ def validate_update_period(value):
     return value
 
 
+class User(AbstractBaseUser):
+    """Модель пользователей."""
+
+    email = models.EmailField("почта", max_length=254, unique=True)
+    confirmation_code = models.CharField(
+        "Код подтверждения", max_length=CONFIRMATION_CODE_LENGTH, null=True
+    )
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+
+
 class Subscribe(models.Model):
     """Модель подписки."""
 
     subscriber = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="follower",
+        related_name="subscribers",
         verbose_name="подписчик",
     )
     created = models.DateTimeField(auto_now_add=True)

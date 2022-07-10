@@ -1,9 +1,10 @@
 import os
+
 from celery import Celery
 from celery.schedules import crontab
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weather_api.settings")
-app = Celery("weather_api")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weather_app.settings")
+app = Celery("weather_app")
 app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks()
 
@@ -20,8 +21,7 @@ app.conf.beat_schedule = {
     },
     "send_weather_one_hour": {
         "task": "weather.tasks.send_mail_task",
-        # "schedule": crontab(minute=0, hour="*/1"),
-        "schedule": crontab(minute="*/55"),
+        "schedule": crontab(minute=0, hour="*/1"),
         "args": (1,),
     },
     "send_weather_three_hour": {

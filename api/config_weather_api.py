@@ -1,6 +1,13 @@
-from weather.models import Town
-from .config import API_URL, appid
+import random
+
 import requests
+from rest_framework_simplejwt.tokens import AccessToken
+
+from weather.models import Town
+from weather_app.settings import (CONFIRMATION_CODE_CHARACTERS,
+                                  CONFIRMATION_CODE_LENGTH)
+
+from .config import API_URL, appid
 
 
 def create_town_for_subscribe(response, town, subscribe):
@@ -33,3 +40,20 @@ def get_weather(town):
         },
     ).json()
     return response
+
+
+def create_confirmation_code():
+    """Создние кода подтверждения."""
+
+    code = "".join(
+        random.choice(CONFIRMATION_CODE_CHARACTERS)
+        for _ in range(CONFIRMATION_CODE_LENGTH)
+    )
+    return code
+
+
+def get_tokens_for_user(user):
+    """Получение токена для авторизации."""
+
+    access = AccessToken.for_user(user)
+    return {"token": str(access)}

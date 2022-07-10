@@ -62,7 +62,7 @@ services:
     restart: always
     build:
       context: .
-    command: celery -A weather_api worker -l INFO
+    command: celery -A weather_app worker -l INFO
     volumes:
       - .:/usr/scr/weather-drf
     depends_on:
@@ -78,7 +78,7 @@ services:
     restart: always
     build:
       context: .
-    command: celery -A weather_api beat -l INFO
+    command: celery -A weather_app beat -l INFO
     volumes:
       - .:/usr/scr/weather-drf
     depends_on:
@@ -92,7 +92,7 @@ services:
     restart: always
     build:
       context: .
-    command: celery -A weather_api flower
+    command: celery -A weather_app flower
     volumes:
       - .:/usr/scr/weather-drf
     ports:
