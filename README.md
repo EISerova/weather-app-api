@@ -56,9 +56,10 @@ Celery 5.1
 Клонировать репозиторий
 
 ```bash
-  git clone https://github.com/EISerova/api_yamdb
+  git clone git@github.com:EISerova/weather-app-api.git
 ```
 
+Запустить контейнер
 ```power shell
   docker-compose up -d --build
 ```
