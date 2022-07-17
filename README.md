@@ -1,5 +1,5 @@
 # Weather App Api
-![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray)  
+![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray) ![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white)    
 ![Docker](https://a11ybadges.com/badge?logo=docker) ![PostgreSQL](https://a11ybadges.com/badge?logo=postgresql) ![Celery](https://a11ybadges.com/badge?logo=celery) ![Redis](https://a11ybadges.com/badge?logo=redis)
 
 ### Описание:
