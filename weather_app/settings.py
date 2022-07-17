@@ -14,24 +14,26 @@ import os
 from datetime import timedelta
 
 from dotenv import load_dotenv
+from django.core.exceptions import ImproperlyConfigured
 
 load_dotenv()
 
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+def get_env_value(env_variable):
+    try:
+        return os.getenv[env_variable]
+    except KeyError:
+        error_msg = "Установите переменную окружения {}".format(env_variable)
+        raise ImproperlyConfigured(error_msg)
+
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+DEBUG = False
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "dcuk&b2df#gy=pgs1l_w6+$r(p(3a(cz_tjja9ye!v_fs^-3!1"
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -87,12 +89,14 @@ WSGI_APPLICATION = "weather_app.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "new_test",
-        "USER": "kate",
-        "PASSWORD": os.getenv("PASSWORD"),
-        "HOST": "weather_db",
-        "PORT": "5432",
+        "ENGINE": os.getenv(
+            "DB_ENGINE", default="django.db.backends.postgresql_psycopg2"
+        ),
+        "NAME": os.getenv("DB_NAME", default="postgres"),
+        "USER": os.getenv("POSTGRES_USER", default="postgres"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", default="postgres"),
+        "HOST": os.getenv("DB_HOST", default="weather_db"),
+        "PORT": os.getenv("DB_PORT", default=5432),
     }
 }
 
@@ -136,6 +140,8 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
