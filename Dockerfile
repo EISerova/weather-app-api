@@ -5,7 +5,7 @@ LABEL email='katyaserova@yandex.ru'
 
 ENV PYTHONUNBUFFERED 1
 
-EXPOSE 8000
+# EXPOSE 8000
 
 WORKDIR /usr/scr/weather-drf/
 

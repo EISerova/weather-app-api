@@ -14,10 +14,6 @@ services:
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: kate
-      POSTGRES_PASSWORD: aaaddda
-      POSTGRES_DB: new_test
     ports:
       - "5432:5432"
     env_file:
@@ -36,11 +32,10 @@ services:
              python /usr/scr/weather-drf/manage.py collectstatic --noinput &&
              gunicorn --bind 0.0.0.0:8000 --workers 3 weather_app.wsgi:application"
     volumes:
-      # - .:/usr/scr/weather-drf
       - static_value:/usr/scr/weather-drf/static/
       - media_value:/usr/scr/weather-drf/media/
     ports:
-      - "8000:8000"
+      - "8000:80"
     env_file:
       - ./.env
     depends_on:

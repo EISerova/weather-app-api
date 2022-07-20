@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 from weather_app.settings import EMAIL_HOST_USER
 
 SINGUP_MESSAGE = "Вы зарегистрировались на сервисе погоды. Ваш код подтверждения: {confirmation_code}."
-TOKEN_MESSAGE = "Ваш токен для доступа на сервис погоды: {token}.  Сохраните его!"
+TOKEN_MESSAGE = "Ваш токен для доступа на сервис погоды: {token}  Сохраните его!"
 
 
 def send_weather_mail(

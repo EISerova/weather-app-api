@@ -4,8 +4,9 @@ from rest_framework import filters, status, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
-from weather.models import Town
+from weather.models import Town, Subscribe
 
 from .serializers import (
     SignUpSerializer,
@@ -53,9 +54,17 @@ class SubscribeViewSet(viewsets.ModelViewSet):
         """
         serializer.save(subscriber=self.request.user)
 
-    def get_queryset(self):
-        """Возвращает список подписок автора запроса."""
-        return self.request.user.subscriber
+    # def get_queryset(self):
+    #     """Возвращает список подписок автора запроса."""
+    #     user_id = self.request.user.id
+    #     subscribes = Subscribe.objects.filter(subscriber_id=user_id).first()
+    #     return subscribes
+
+    def list(self, request):
+        user_id = self.request.user.id
+        queryset = Subscribe.objects.filter(subscriber_id=user_id)
+        serializer = SubscribeSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class TownViewSet(viewsets.ModelViewSet):
