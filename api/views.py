@@ -45,26 +45,23 @@ class SubscribeViewSet(viewsets.ModelViewSet):
 
     permission_classes = (IsAuthenticated,)
     filter_backends = (filters.SearchFilter,)
+    queryset = Subscribe.objects.all()
 
     def perform_create(self, serializer):
-        """
-        Создает подписку.
-        Подписчик устанавливается автоматически,
-        в запросе передается только автор.
-        """
         serializer.save(subscriber=self.request.user)
-
-    # def get_queryset(self):
-    #     """Возвращает список подписок автора запроса."""
-    #     user_id = self.request.user.id
-    #     subscribes = Subscribe.objects.filter(subscriber_id=user_id).first()
-    #     return subscribes
 
     def list(self, request):
         user_id = self.request.user.id
         queryset = Subscribe.objects.filter(subscriber_id=user_id)
         serializer = SubscribeSerializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class UpdateSubscribeSet(viewsets.ModelViewSet):
+    "Обрабатывает запросы для редактирования подписки."
+    permission_classes = (IsAuthenticated,)
+    serializer_class = SubscribeSerializer
+    queryset = Subscribe.objects.all()
 
 
 class TownViewSet(viewsets.ModelViewSet):

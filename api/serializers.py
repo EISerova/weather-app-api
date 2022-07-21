@@ -106,10 +106,19 @@ class SubscribeSerializer(serializers.ModelSerializer):
 
         return subscribe
 
+    def update(self, instance, validated_data):
+        instance.update_period = validated_data.get(
+            "update_period", instance.update_period
+        )
+        instance.save()
+        return instance
+
     class Meta:
         model = Subscribe
         fields = (
             "subscriber",
             "town",
             "update_period",
+            "id",
+            "created",
         )
